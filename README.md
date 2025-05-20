@@ -94,4 +94,5 @@
 
 ### Action items
 
-- [ ]
+간단한 HTML과 JavaScript를 이용해 데시멀 계산기를 구현하였다. `index.html` 파일을 웹 브라우저에서 열면 사용
+가능하다.
