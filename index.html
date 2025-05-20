@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Decimal Calculator</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="container">
+  <h1>Decimal Calculator</h1>
+  <div class="row">
+    <label for="chainSelect">Chain:</label>
+    <select id="chainSelect"></select>
+  </div>
+  <div class="row">
+    <label for="tokenSelect">Token:</label>
+    <select id="tokenSelect"></select>
+  </div>
+  <div class="row">
+    <label for="rawInput">Raw Value:</label>
+    <input id="rawInput" type="text" placeholder="Big integer">
+  </div>
+  <div class="row">
+    <label for="formattedInput">Formatted:</label>
+    <input id="formattedInput" type="text" placeholder="Decimal value">
+  </div>
+  <div class="row">
+    <label>Decimals:</label>
+    <span id="decimalsDisplay">18</span>
+  </div>
+</div>
+<div class="toggle">
+  <button id="toggleTable">Show Decimals Table</button>
+  <div id="tableContainer" class="hidden"></div>
+</div>
+<script src="script.js"></script>
+</body>
+</html>

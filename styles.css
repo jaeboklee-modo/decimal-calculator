@@ -1,0 +1,38 @@
+body {
+  font-family: sans-serif;
+  padding: 1rem;
+  margin: 0;
+  background: #f5f5f5;
+}
+.container {
+  max-width: 600px;
+  margin: auto;
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.row {
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+}
+.row label {
+  width: 100px;
+}
+.row input, .row select {
+  flex: 1;
+  padding: 0.5rem;
+}
+.toggle {
+  max-width: 600px;
+  margin: 1rem auto;
+  text-align: center;
+}
+.hidden {
+  display: none;
+}
+#tableContainer {
+  overflow-x: auto;
+  margin-top: 1rem;
+}
