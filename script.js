@@ -75,6 +75,10 @@ const formattedInput = document.getElementById('formattedInput');
 const decimalsDisplay = document.getElementById('decimalsDisplay');
 const toggleButton = document.getElementById('toggleTable');
 const tableContainer = document.getElementById('tableContainer');
+const toggleRefButton = document.getElementById('toggleRefTable');
+const refTableContainer = document.getElementById('refTableContainer');
+const toggleFaqButton = document.getElementById('toggleFaq');
+const faqContainer = document.getElementById('faqContainer');
 
 function scaleDown(value, decimals) {
   const str = value.toString();
@@ -195,4 +199,14 @@ formattedInput.addEventListener('input', updateValues);
 toggleButton.addEventListener('click', () => {
   tableContainer.classList.toggle('hidden');
   toggleButton.textContent = tableContainer.classList.contains('hidden') ? 'Show Decimals Table' : 'Hide Decimals Table';
+});
+
+toggleRefButton.addEventListener('click', () => {
+  refTableContainer.classList.toggle('hidden');
+  toggleRefButton.textContent = refTableContainer.classList.contains('hidden') ? 'Show Official Reference Table' : 'Hide Official Reference Table';
+});
+
+toggleFaqButton.addEventListener('click', () => {
+  faqContainer.classList.toggle('hidden');
+  toggleFaqButton.textContent = faqContainer.classList.contains('hidden') ? 'Show FAQ' : 'Hide FAQ';
 });
