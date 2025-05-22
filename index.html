@@ -1,180 +1,267 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Decimal Calculator</title>
-<link rel="stylesheet" href="styles.css">
-</head>
-<body>
-<div class="container">
-  <h1>Decimal Calculator</h1>
-  <div class="row">
-    <label for="chainSelect">Chain:</label>
-    <select id="chainSelect"></select>
-  </div>
-  <div class="row">
-    <label for="tokenSelect">Token:</label>
-    <select id="tokenSelect"></select>
-  </div>
-  <div class="row">
-    <label for="rawInput">Raw Value:</label>
-    <input id="rawInput" type="text" placeholder="Big integer">
-  </div>
-  <div class="row">
-    <label for="formattedInput">Formatted:</label>
-    <input id="formattedInput" type="text" placeholder="Decimal value">
-  </div>
-  <div class="row">
-    <label>Decimals:</label>
-    <span id="decimalsDisplay">18</span>
-  </div>
-</div>
-<div class="toggle">
-  <button id="toggleTable">Show Decimals Table</button>
-  <div id="tableContainer" class="hidden"></div>
-</div>
-
-<section id="token-decimals-faq">
-  <h2>Token Decimals (Official FAQ)</h2>
-
-  <div class="toggle">
-    <button id="toggleRefTable">Show Official Reference Table</button>
-    <div id="refTableContainer" class="hidden">
-      <h3>Official Reference Table</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Token / Chain</th>
-            <th>Standard Decimals</th>
-            <th>Authoritative Source</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>USDC</strong></td>
-            <td>6</td>
-            <td><a href="https://developers.circle.com/stablecoins/quickstart-transfer-10-usdc-on-chain">https://developers.circle.com/stablecoins/quickstart-transfer-10-usdc-on-chain</a></td>
-          </tr>
-          <tr>
-            <td><strong>USDT</strong> (Ethereum)</td>
-            <td>6</td>
-            <td><a href="https://etherscan.io/address/0xdac17f958d2ee523a2206206994597c13d831ec7#code">https://etherscan.io/address/0xdac17f958d2ee523a2206206994597c13d831ec7#code</a></td>
-          </tr>
-          <tr>
-            <td><strong>Toncoin (TON)</strong></td>
-            <td>9</td>
-            <td><a href="https://docs.ton.org/v3/guidelines/dapps/cookbook">https://docs.ton.org/v3/guidelines/dapps/cookbook</a></td>
-          </tr>
-          <tr>
-            <td><strong>Bitcoin (BTC)</strong></td>
-            <td>8</td>
-            <td><a href="https://developer.bitcoin.org/glossary.html#satoshis">https://developer.bitcoin.org/glossary.html#satoshis</a></td>
-          </tr>
-          <tr>
-            <td><strong>Ether &amp; most ERC-20s</strong></td>
-            <td>18</td>
-            <td><a href="https://docs.openzeppelin.com/contracts/5.x/erc20">https://docs.openzeppelin.com/contracts/5.x/erc20</a></td>
-          </tr>
-          <tr>
-            <td><strong>ERC-20 spec</strong></td>
-            <td>variable</td>
-            <td><a href="https://eips.ethereum.org/EIPS/eip-20">https://eips.ethereum.org/EIPS/eip-20</a></td>
-          </tr>
-          <tr>
-            <td><strong>Solana (SOL)</strong></td>
-            <td>9</td>
-            <td><a href="https://docs.solana.com/terminology#lamport">https://docs.solana.com/terminology#lamport</a></td>
-          </tr>
-        </tbody>
-      </table>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Decimal Calculator</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Decimal Calculator</h1>
+      <div class="row">
+        <label for="chainSelect">Chain:</label>
+        <select id="chainSelect"></select>
+      </div>
+      <div class="row">
+        <label for="tokenSelect">Token:</label>
+        <select id="tokenSelect"></select>
+      </div>
+      <div class="row">
+        <label for="rawInput">Raw Value:</label>
+        <input id="rawInput" type="text" placeholder="Big integer" />
+      </div>
+      <div class="row">
+        <label for="formattedInput">Formatted:</label>
+        <input id="formattedInput" type="text" placeholder="Decimal value" />
+      </div>
+      <div class="row">
+        <label>Decimals:</label>
+        <span id="decimalsDisplay">18</span>
+      </div>
     </div>
-  </div>
-
-  <div class="toggle">
-    <button id="toggleFaq">Show FAQ</button>
-    <div id="faqContainer" class="hidden">
-      <hr>
-
-      <h3>FAQ — Decimals &amp; Unit Conversion</h3>
-
-      <h4>1. What does the <code>decimals</code> field actually represent?</h4>
-      <p>
-        It defines how many <strong>base units</strong> compose one token unit.<br>
-        If <code>decimals = 18</code>, an on-chain integer of
-        <code>1_000_000_000_000_000_000</code> equals <strong>1 token</strong>.<br>
-        <a href="https://docs.openzeppelin.com/contracts/5.x/erc20">https://docs.openzeppelin.com/contracts/5.x/erc20</a>
-      </p>
-
-      <h4>2. Why does <strong>USDC</strong> use only 6 decimals?</h4>
-      <p>
-        Circle chose <strong>6</strong> to mirror fiat “cents” UX and keep raw numbers small;
-        every official USDC contract on every chain follows this.<br>
-        <a href="https://developers.circle.com/stablecoins/quickstart-transfer-10-usdc-on-chain">https://developers.circle.com/stablecoins/quickstart-transfer-10-usdc-on-chain</a>
-      </p>
-
-      <h4>3. Does <strong>USDC</strong> ever use 18 decimals?</h4>
-      <p>
-        Any 18-decimal variant is a <strong>bridged / wrapped</strong> token (e.g., Binance-Peg).<br>
-        Always call the contract’s own <code>decimals()</code> before scaling.<br>
-        <a href="https://developers.circle.com/stablecoins/quickstart-transfer-10-usdc-on-chain">https://developers.circle.com/stablecoins/quickstart-transfer-10-usdc-on-chain</a>
-      </p>
-
-      <h4>4. I see both 6- and 18-decimal <strong>USDT</strong> contracts—what’s correct?</h4>
-      <p>
-        The canonical Ethereum USDT contract locks <code>_decimals = 6</code>.<br>
-        18-decimal versions are redeployed bridge tokens; verify each chain’s contract.<br>
-        <a href="https://etherscan.io/address/0xdac17f958d2ee523a2206206994597c13d831ec7#code">https://etherscan.io/address/0xdac17f958d2ee523a2206206994597c13d831ec7#code</a>
-      </p>
-
-      <h4>5. Can a token change its decimals after deployment?</h4>
-      <p>
-        No. <code>decimals</code> is an immutable constant in the bytecode.<br>
-        Changing precision requires a brand-new contract.<br>
-        <a href="https://eips.ethereum.org/EIPS/eip-20">https://eips.ethereum.org/EIPS/eip-20</a>
-      </p>
-
-      <h4>6. What is the smallest transferable unit of <strong>Bitcoin</strong>, and how many decimals is that?</h4>
-      <p>
-        A <strong>satoshi</strong> – <code>1 BTC = 100 000 000 satoshis</code>, i.e. 8 decimals.<br>
-        <a href="https://developer.bitcoin.org/glossary.html#satoshis">https://developer.bitcoin.org/glossary.html#satoshis</a>
-      </p>
-
-      <h4>7. How many decimals does <strong>Toncoin (TON)</strong> use, and what about Jettons?</h4>
-      <p>
-        Toncoin uses <strong>9 decimals</strong> (<code>1 TON = 1 000 000 000 nanoTON</code>).<br>
-        Most Jettons follow the same rule unless explicitly configured (e.g., 6 for TON-USDT).<br>
-        <a href="https://docs.ton.org/v3/guidelines/dapps/cookbook">https://docs.ton.org/v3/guidelines/dapps/cookbook</a>
-      </p>
-
-      <h4>8. Where does the 9-decimal rule for <strong>Solana</strong> come from?</h4>
-      <p>
-        Solana’s smallest unit is a <strong>lamport</strong>;
-        <code>1 SOL = 1 000 000 000 lamports</code> (9 decimals).<br>
-        <a href="https://docs.solana.com/terminology#lamport">https://docs.solana.com/terminology#lamport</a>
-      </p>
-
-      <h4>9. How do I convert raw on-chain balances to human-readable numbers?</h4>
-      <p>
-        Use <code>human = raw / 10**decimals</code>.<br>
-        For user input, multiply back (<code>raw = human * 10**decimals</code>).<br>
-        Employ arbitrary-precision libraries—never JS <code>Number</code> for big values.<br>
-        <a href="https://docs.openzeppelin.com/contracts/5.x/erc20">https://docs.openzeppelin.com/contracts/5.x/erc20</a>
-      </p>
-
-      <h4>10. Is <code>decimals</code> mandatory in the ERC-20 standard?</h4>
-      <p>
-        No. It’s an <strong>optional</strong> function in EIP-20; clients must not assume it exists.<br>
-        <a href="https://eips.ethereum.org/EIPS/eip-20">https://eips.ethereum.org/EIPS/eip-20</a>
-      </p>
-
-      <blockquote>
-        <strong>Tip for developers:</strong> cache each token’s <code>decimals()</code> value per network, and always verify bridged or wrapped assets individually to avoid scaling errors.
-      </blockquote>
+    <div class="toggle">
+      <button id="toggleTable">Show Decimals Table</button>
+      <div id="tableContainer" class="hidden"></div>
     </div>
-  </div>
-</section>
 
-<script src="script.js"></script>
-</body>
+    <section id="token-decimals-faq">
+      <div class="toggle">
+        <button id="toggleRefTable">Show Official Reference Table</button>
+        <div id="refTableContainer" class="hidden">
+          <h3>Official Reference Table</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Token / Chain</th>
+                <th>Standard Decimals</th>
+                <th>Authoritative Source</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>USDC</strong></td>
+                <td>6</td>
+                <td>
+                  <a
+                    href="https://developers.circle.com/stablecoins/quickstart-transfer-10-usdc-on-chain"
+                    >https://developers.circle.com/stablecoins/quickstart-transfer-10-usdc-on-chain</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td><strong>USDT</strong> (Ethereum)</td>
+                <td>6</td>
+                <td>
+                  <a
+                    href="https://etherscan.io/address/0xdac17f958d2ee523a2206206994597c13d831ec7#code"
+                    >https://etherscan.io/address/0xdac17f958d2ee523a2206206994597c13d831ec7#code</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Toncoin (TON)</strong></td>
+                <td>9</td>
+                <td>
+                  <a href="https://docs.ton.org/v3/guidelines/dapps/cookbook"
+                    >https://docs.ton.org/v3/guidelines/dapps/cookbook</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Bitcoin (BTC)</strong></td>
+                <td>8</td>
+                <td>
+                  <a href="https://developer.bitcoin.org/glossary.html#satoshis"
+                    >https://developer.bitcoin.org/glossary.html#satoshis</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Ether &amp; most ERC-20s</strong></td>
+                <td>18</td>
+                <td>
+                  <a href="https://docs.openzeppelin.com/contracts/5.x/erc20"
+                    >https://docs.openzeppelin.com/contracts/5.x/erc20</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td><strong>ERC-20 spec</strong></td>
+                <td>variable</td>
+                <td>
+                  <a href="https://eips.ethereum.org/EIPS/eip-20"
+                    >https://eips.ethereum.org/EIPS/eip-20</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Solana (SOL)</strong></td>
+                <td>9</td>
+                <td>
+                  <a href="https://docs.solana.com/terminology#lamport"
+                    >https://docs.solana.com/terminology#lamport</a
+                  >
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="toggle">
+        <button id="toggleFaq">Show FAQ</button>
+        <div id="faqContainer" class="hidden">
+          <hr />
+
+          <h3>FAQ — Decimals &amp; Unit Conversion</h3>
+
+          <h4>
+            1. What does the <code>decimals</code> field actually represent?
+          </h4>
+          <p>
+            It defines how many <strong>base units</strong> compose one token
+            unit.<br />
+            If <code>decimals = 18</code>, an on-chain integer of
+            <code>1_000_000_000_000_000_000</code> equals
+            <strong>1 token</strong>.<br />
+            <a href="https://docs.openzeppelin.com/contracts/5.x/erc20"
+              >https://docs.openzeppelin.com/contracts/5.x/erc20</a
+            >
+          </p>
+
+          <h4>2. Why does <strong>USDC</strong> use only 6 decimals?</h4>
+          <p>
+            Circle chose <strong>6</strong> to mirror fiat “cents” UX and keep
+            raw numbers small; every official USDC contract on every chain
+            follows this.<br />
+            <a
+              href="https://developers.circle.com/stablecoins/quickstart-transfer-10-usdc-on-chain"
+              >https://developers.circle.com/stablecoins/quickstart-transfer-10-usdc-on-chain</a
+            >
+          </p>
+
+          <h4>3. Does <strong>USDC</strong> ever use 18 decimals?</h4>
+          <p>
+            Any 18-decimal variant is a <strong>bridged / wrapped</strong> token
+            (e.g., Binance-Peg).<br />
+            Always call the contract’s own <code>decimals()</code> before
+            scaling.<br />
+            <a
+              href="https://developers.circle.com/stablecoins/quickstart-transfer-10-usdc-on-chain"
+              >https://developers.circle.com/stablecoins/quickstart-transfer-10-usdc-on-chain</a
+            >
+          </p>
+
+          <h4>
+            4. I see both 6- and 18-decimal
+            <strong>USDT</strong> contracts—what’s correct?
+          </h4>
+          <p>
+            The canonical Ethereum USDT contract locks
+            <code>_decimals = 6</code>.<br />
+            18-decimal versions are redeployed bridge tokens; verify each
+            chain’s contract.<br />
+            <a
+              href="https://etherscan.io/address/0xdac17f958d2ee523a2206206994597c13d831ec7#code"
+              >https://etherscan.io/address/0xdac17f958d2ee523a2206206994597c13d831ec7#code</a
+            >
+          </p>
+
+          <h4>5. Can a token change its decimals after deployment?</h4>
+          <p>
+            No. <code>decimals</code> is an immutable constant in the
+            bytecode.<br />
+            Changing precision requires a brand-new contract.<br />
+            <a href="https://eips.ethereum.org/EIPS/eip-20"
+              >https://eips.ethereum.org/EIPS/eip-20</a
+            >
+          </p>
+
+          <h4>
+            6. What is the smallest transferable unit of
+            <strong>Bitcoin</strong>, and how many decimals is that?
+          </h4>
+          <p>
+            A <strong>satoshi</strong> –
+            <code>1 BTC = 100 000 000 satoshis</code>, i.e. 8 decimals.<br />
+            <a href="https://developer.bitcoin.org/glossary.html#satoshis"
+              >https://developer.bitcoin.org/glossary.html#satoshis</a
+            >
+          </p>
+
+          <h4>
+            7. How many decimals does <strong>Toncoin (TON)</strong> use, and
+            what about Jettons?
+          </h4>
+          <p>
+            Toncoin uses <strong>9 decimals</strong> (<code
+              >1 TON = 1 000 000 000 nanoTON</code
+            >).<br />
+            Most Jettons follow the same rule unless explicitly configured
+            (e.g., 6 for TON-USDT).<br />
+            <a href="https://docs.ton.org/v3/guidelines/dapps/cookbook"
+              >https://docs.ton.org/v3/guidelines/dapps/cookbook</a
+            >
+          </p>
+
+          <h4>
+            8. Where does the 9-decimal rule for <strong>Solana</strong> come
+            from?
+          </h4>
+          <p>
+            Solana’s smallest unit is a <strong>lamport</strong>;
+            <code>1 SOL = 1 000 000 000 lamports</code> (9 decimals).<br />
+            <a href="https://docs.solana.com/terminology#lamport"
+              >https://docs.solana.com/terminology#lamport</a
+            >
+          </p>
+
+          <h4>
+            9. How do I convert raw on-chain balances to human-readable numbers?
+          </h4>
+          <p>
+            Use <code>human = raw / 10**decimals</code>.<br />
+            For user input, multiply back (<code
+              >raw = human * 10**decimals</code
+            >).<br />
+            Employ arbitrary-precision libraries—never JS
+            <code>Number</code> for big values.<br />
+            <a href="https://docs.openzeppelin.com/contracts/5.x/erc20"
+              >https://docs.openzeppelin.com/contracts/5.x/erc20</a
+            >
+          </p>
+
+          <h4>
+            10. Is <code>decimals</code> mandatory in the ERC-20 standard?
+          </h4>
+          <p>
+            No. It’s an <strong>optional</strong> function in EIP-20; clients
+            must not assume it exists.<br />
+            <a href="https://eips.ethereum.org/EIPS/eip-20"
+              >https://eips.ethereum.org/EIPS/eip-20</a
+            >
+          </p>
+
+          <blockquote>
+            <strong>Tip for developers:</strong> cache each token’s
+            <code>decimals()</code> value per network, and always verify bridged
+            or wrapped assets individually to avoid scaling errors.
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <script src="script.js"></script>
+  </body>
 </html>
